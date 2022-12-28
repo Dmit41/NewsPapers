@@ -1,0 +1,43 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+Products
+{% endblock title %}
+
+{% block content %}
+    <h3>Количество новостей :&nbsp;{{ all_news|length }}</h3>
+   <hr>
+   {% if all_news %}
+    <style type="text/css">
+   TABLE {
+    width: 1200px; /* Ширина таблицы */
+    border-collapse: collapse; /* Убираем двойные линии между ячейками */
+   }
+   TD, TH {
+    padding: 3px; /* Поля вокруг содержимого таблицы */
+    border: 2px solid black; /* Параметры рамки */
+   }
+  </style>
+       <table>
+           <tr>
+               <td>Заголовок</td>
+               <td>Дата</td>
+               <td>Текст</td>
+
+           </tr>
+
+           {% for news in all_news %}
+           <tr>
+               <td>{{ news.name }}</td>
+               <td>{{ news.date }}</td>>
+               <td>{{ news.description|truncatewords:20|censor:"борьбу"|censor:"ограбили"|censor:"умерщвляли" }}</td>
+           </tr>
+           {% endfor %}
+
+       </table>
+   {% else %}
+       <h2>Новостей нет!</h2>
+   {% endif %}
+{% endblock content %}
