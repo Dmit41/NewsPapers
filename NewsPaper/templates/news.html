@@ -8,10 +8,9 @@ News
 
 {% block content %}
 
-<h4>{{ news.name }}</h4>
-<hr>
 <h4>Дата публикации : {{ news.date }}</h4>
 <hr>
-<h4>{{ news.description|censor:"борьбу"|censor:"ограбили"|censor:"умерщвляли" }}</h4>
+<h4>{{ news.name }} : {{ news.description }}</h4>
+<hr>
 
 {% endblock content %}

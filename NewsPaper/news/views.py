@@ -1,9 +1,11 @@
-# Импортируем класс, который говорит нам о том,
-# что в этом представлении мы будем выводить список объектов из БД
 from datetime import datetime
-
-from django.views.generic import ListView, DetailView
-from .models import News
+from django.urls import reverse_lazy
+from django.views.generic import (
+    ListView, DetailView, CreateView, UpdateView, DeleteView,
+)
+from .models import News, Articles
+from.filters import NewsFilter
+from .forms import NewsForm
 
 
 class NewsList(ListView):
@@ -11,26 +13,46 @@ class NewsList(ListView):
     ordering = '-date'
     template_name = 'all_news.html'
     context_object_name = 'all_news'
+    paginate_by = 1
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        self.filterset = NewsFilter(self.request.GET, queryset)
+        return self.filterset.qs
 
     def get_context_data(self, **kwargs):
-        # С помощью super() мы обращаемся к родительским классам
-        # и вызываем у них метод get_context_data с теми же аргументами,
-        # что и были переданы нам.
-        # В ответе мы должны получить словарь.
         context = super().get_context_data(**kwargs)
-        # К словарю добавим текущую дату в ключ 'time_now'.
         context['time_now'] = datetime.utcnow()
-        # Добавим ещё одну пустую переменную,
-        # чтобы на её примере рассмотреть работу ещё одного фильтра.
         context['next_sale'] = "Распродажа в среду!"
+        context['filterset'] = self.filterset
         return context
 
 
 class NewsDetail(DetailView):
-    # Модель всё та же, но мы хотим получать информацию по отдельному товару
     model = News
-    # Используем другой шаблон — product.html
     template_name = 'news.html'
-    # Название объекта, в котором будет выбранный пользователем продукт
     context_object_name = 'news'
 
+
+class NewsCreate(CreateView):
+    form_class = NewsForm
+    model = News
+    template_name = 'news_edit.html'
+
+
+class ArticleCreate(CreateView):
+    form_class = NewsForm
+    model = Articles
+    template_name = 'article_edit.html'
+
+
+class PostUpdate(UpdateView):
+    form_class = NewsForm
+    model = News
+    template_name = 'update.html'
+
+
+class PostDelete(DeleteView):
+    model = News
+    template_name = 'post_delete.html'
+    success_url = reverse_lazy('news_list')
