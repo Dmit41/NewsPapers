@@ -13,7 +13,7 @@ class NewsList(ListView):
     ordering = '-date'
     template_name = 'all_news.html'
     context_object_name = 'all_news'
-    paginate_by = 10
+    paginate_by = 3
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -26,6 +26,11 @@ class NewsList(ListView):
         context['next_sale'] = "Распродажа в среду!"
         context['filterset'] = self.filterset
         return context
+
+
+class NewsListSearch(NewsList):
+    template_name = 'post_search.html'
+    context_object_name = 'all_news'
 
 
 class NewsDetail(DetailView):

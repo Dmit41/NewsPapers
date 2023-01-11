@@ -9,12 +9,14 @@ class NewsFilter(FilterSet):
         lookup_expr='icontains',
         label='Заголовок содержит:'
     )
+
     category = ModelChoiceFilter(
         field_name='category',
         queryset=Category.objects.all(),
         label='Категория',
         empty_label='Все категории'
     )
+
     date = DateTimeFilter(
         field_name='date',
         lookup_expr='gt',
@@ -22,8 +24,11 @@ class NewsFilter(FilterSet):
             format='%Y-%m-%dT%H:%M',
             attrs={'type': 'datetime-local'},
         ),
+        label='Дата позже:'
     )
 
     class Meta:
         model = News
-        fields = {'name', 'category', 'date'}
+        fields = {
+            'name', 'category', 'date'
+        }

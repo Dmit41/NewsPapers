@@ -6,6 +6,13 @@
 {% block content %}
 <h3>Все посты</h3>
     <hr>
+
+    <form action="" method="get">
+        {{ filterset.form.as_p }}
+        <input type="submit" value="Найти" />
+    </form>
+
+   <hr>
    {% if all_news %}
     <style type="text/css">
    TABLE {
