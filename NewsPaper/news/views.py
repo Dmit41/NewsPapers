@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from datetime import datetime
 from django.urls import reverse_lazy
 from django.views.generic import (
@@ -39,25 +40,28 @@ class NewsDetail(DetailView):
     context_object_name = 'news'
 
 
-class NewsCreate(CreateView):
+class NewsCreate(PermissionRequiredMixin, CreateView):
+    permission_required = ('news.add_news',)
     form_class = NewsForm
     model = News
-    template_name = 'news_edit.html'
+    template_name = 'news_create.html'
 
 
-class ArticleCreate(CreateView):
-    form_class = NewsForm
+class ArticleCreate(NewsCreate):
+    permission_required = ('news.add_articles',)
     model = Articles
     template_name = 'article_edit.html'
 
 
-class PostUpdate(UpdateView):
+class PostUpdate(PermissionRequiredMixin, UpdateView):
+    permission_required = ('news.change_news',)
     form_class = NewsForm
     model = News
-    template_name = 'update.html'
+    template_name = 'post_update.html'
 
 
-class PostDelete(DeleteView):
+class PostDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = ('news.delete_news',)
     model = News
     template_name = 'post_delete.html'
     success_url = reverse_lazy('news_list')
