@@ -1,20 +1,20 @@
 import os
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-@&&_x2tw(uuo4ric2w5&7%ct=-8a!cg#y942k8uh3q#2_x$f-l'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'testmail_skillfactory'
+EMAIL_HOST_PASSWORD = 'e8XarUDqwb8RARpuAjNs'
+EMAIL_USE_SSL = True
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.flatpages',
     'news',
     'accounts',
+    'newsletter',
     'django_filters',
     'allauth',
     'allauth.account',

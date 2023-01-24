@@ -5,18 +5,18 @@
 
 {% block content %}
 
-    <h3>Все посты</h3>
+    <h3> Все посты категории: {{ category }}</h3>
     <hr>
-    {% if perms.news.add_news %}
-    <a href="{% url 'news_create' %}"
-       class="btn btn-secondary btn-sm">Добавить новость</a>
-    {% endif %}
-    {% if perms.news.add_news %}
-    <a href="{% url 'articles_create' %}"
-       class="btn btn-secondary btn-sm">Добавить статью</a>
+
+    {% if is_not_subscriber %}
+        <p class="text-center"><a href="{% url 'add_subs' category.id %}"
+                                  class="btn btn-secondary btn-sm">Подписаться</a></p>
+    {% else %}
+        <p class="text-center"><a href="{% url 'del_subs' category.id %}"
+                                  class="btn btn-secondary btn-sm">Отписаться</a></p>
     {% endif %}
 
-   {% if all_news %}
+   {% if category_news_list %}
     <style type="text/css">
        TABLE {
         width: 1300px; /* Ширина таблицы */
@@ -43,11 +43,17 @@
 
         </tr>
 
-        {% for news in all_news %}
+        {% for news in category_news_list %}
         <tr>
             <td>
-                <a href="{% url 'category_list' news.category.id %}">{{ news.category }}</a>
-
+                <a href="{% url 'category_list' category.id %}" >{{ category }}</a>
+                {% if is_not_subscriber %}
+                    <p class="text-center"><a href="{% url 'add_subs' category.id %}"
+                                              class="btn btn-secondary btn-sm">Подписаться</a></p>
+                {% else %}
+                    <p class="text-center"><a href="{% url 'del_subs' category.id %}"
+                                              class="btn btn-secondary btn-sm">Отписаться</a></p>
+                {% endif %}
             </td>
             <td>{{ news.name }}</td>
             <td>{{ news.date }}</td>
