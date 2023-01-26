@@ -19,6 +19,7 @@ class News(models.Model):
     def descript(self):
         return f'{self.description}'
 
+
     def __str__(self):
         return f'{self.name}: {self.description}'
 

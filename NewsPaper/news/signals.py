@@ -4,7 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.template.loader import render_to_string
 
-from .models import News
+from .models import News, Articles
 
 
 def send_notifications(description, pk, name, subs_email):
@@ -35,4 +35,12 @@ def add_new_post(sender, instance, **kwargs):
 
     send_notifications(instance.description, instance.pk, instance.name, subs_email)
 
+
+@receiver(post_save, sender=Articles)
+def add_new_post(sender, instance, **kwargs):
+    subs_email = []
+    subs = instance.category.subscribers.all()
+    subs_email += [s.email for s in subs]
+
+    send_notifications(instance.description, instance.pk, instance.name, subs_email)
 
