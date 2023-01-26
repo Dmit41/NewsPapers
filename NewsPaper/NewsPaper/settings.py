@@ -10,11 +10,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SITE_URL = 'HTTP://127.0.0.1:8000'
+
 EMAIL_HOST = 'smtp.mail.ru'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = 'testmail_skillfactory'
 EMAIL_HOST_PASSWORD = 'e8XarUDqwb8RARpuAjNs'
 EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = 'testmail_skillfactory@mail.ru'
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -43,9 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.flatpages',
-    'news',
+    'news.apps.NewsConfig',
     'accounts',
-    'newsletter',
     'django_filters',
     'allauth',
     'allauth.account',

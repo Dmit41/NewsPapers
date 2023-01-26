@@ -16,6 +16,9 @@ class News(models.Model):
         related_name='news'
     )
 
+    def descript(self):
+        return f'{self.description}'
+
     def __str__(self):
         return f'{self.name}: {self.description}'
 
